@@ -1,5 +1,32 @@
 @TodoApi_HostAddress = http://localhost:5255
 
+### List todos
+GET {{TodoApi_HostAddress}}/api/todos
+Accept: application/json
+
+### Get todo by id
+GET {{TodoApi_HostAddress}}/api/todos/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+### Create todo
+POST {{TodoApi_HostAddress}}/api/todos
+Content-Type: application/json
+
+{
+  "title": "Buy milk"
+}
+
+### Update todo
+PUT {{TodoApi_HostAddress}}/api/todos/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+
+{
+  "title": "Buy oat milk"
+}
+
+### Delete todo
+DELETE {{TodoApi_HostAddress}}/api/todos/00000000-0000-0000-0000-000000000000
+
 ### OpenAPI document (Development)
 GET {{TodoApi_HostAddress}}/openapi/v1.json
 Accept: application/json

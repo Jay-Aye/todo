@@ -1,9 +1,14 @@
+using TodoApi.Repositories;
+using TodoApi.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 const string frontendCorsPolicy = "Frontend";
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+builder.Services.AddSingleton<ITodoRepository, InMemoryTodoRepository>();
+builder.Services.AddSingleton<ITodoService, TodoService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(frontendCorsPolicy, policy =>
