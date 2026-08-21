@@ -1,0 +1,16 @@
+.todo-list {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+}
+
+p {
+  margin: 0;
+  color: #555;
+}
