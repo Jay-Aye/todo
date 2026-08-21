@@ -52,6 +52,17 @@ public class TodosApiTests
     }
 
     [Fact]
+    public async Task CreateTodo_WithWhitespaceTitle_ReturnsBadRequest()
+    {
+        await using var factory = CreateFactory();
+        var client = factory.CreateClient();
+
+        var response = await client.PostAsJsonAsync("/api/todos", new CreateTodoRequest("   "));
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
     public async Task CreateTodo_ThenGetTodos_IncludesCreatedItem()
     {
         await using var factory = CreateFactory();
@@ -154,6 +165,23 @@ public class TodosApiTests
         var response = await client.PutAsJsonAsync(
             $"/api/todos/{created.Id}",
             new UpdateTodoRequest(""));
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task UpdateTodo_WithWhitespaceTitle_ReturnsBadRequest()
+    {
+        await using var factory = CreateFactory();
+        var client = factory.CreateClient();
+
+        var createResponse = await client.PostAsJsonAsync("/api/todos", new CreateTodoRequest("Keep me"));
+        var created = await createResponse.Content.ReadFromJsonAsync<TodoResponse>();
+        Assert.NotNull(created);
+
+        var response = await client.PutAsJsonAsync(
+            $"/api/todos/{created.Id}",
+            new UpdateTodoRequest("   "));
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
