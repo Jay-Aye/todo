@@ -1,4 +1,63 @@
 <section class="todo-list">
   <h1>Todos</h1>
-  <p>Todo list UI will be implemented next.</p>
+
+  @if (error(); as message) {
+    <p class="error" data-testid="todo-error" role="alert">{{ message }}</p>
+  }
+
+  <form data-testid="todo-form" (ngSubmit)="addTodo()">
+    <label class="sr-only" for="todo-title">New todo</label>
+    <input
+      id="todo-title"
+      name="title"
+      type="text"
+      data-testid="todo-title-input"
+      placeholder="What needs doing?"
+      maxlength="200"
+      [ngModel]="newTitle()"
+      (ngModelChange)="newTitle.set($event)"
+    />
+    <button type="submit">Add</button>
+  </form>
+
+  @if (loading()) {
+    <p class="status">Loading…</p>
+  } @else if (todos().length === 0) {
+    <p class="status">No todos yet. Add one above.</p>
+  } @else {
+    <ul>
+      @for (todo of todos(); track todo.id) {
+        <li data-testid="todo-item">
+          @if (editingId() === todo.id) {
+            <input
+              type="text"
+              data-testid="edit-todo-input"
+              maxlength="200"
+              [ngModel]="editTitle()"
+              (ngModelChange)="editTitle.set($event)"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            <div class="actions">
+              <button type="button" data-testid="save-todo" (click)="saveEdit(todo.id)">
+                Save
+              </button>
+              <button type="button" class="secondary" data-testid="cancel-edit" (click)="cancelEdit()">
+                Cancel
+              </button>
+            </div>
+          } @else {
+            <span>{{ todo.title }}</span>
+            <div class="actions">
+              <button type="button" class="secondary" data-testid="edit-todo" (click)="startEdit(todo)">
+                Edit
+              </button>
+              <button type="button" class="danger" data-testid="delete-todo" (click)="deleteTodo(todo.id)">
+                Delete
+              </button>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  }
 </section>
