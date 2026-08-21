@@ -1,0 +1,5 @@
+@TodoApi_HostAddress = http://localhost:5255
+
+### OpenAPI document (Development)
+GET {{TodoApi_HostAddress}}/openapi/v1.json
+Accept: application/json
